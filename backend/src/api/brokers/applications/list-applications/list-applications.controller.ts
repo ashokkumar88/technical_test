@@ -141,11 +141,19 @@ export class BrokerApplicationsListController {
     @Body() body: ApplicationDto
   ): Promise<BrokerApplicationPostResponseDto> {
     const avgLoanAmount = await this.applicationEntity.getAverageLoanAmount()
-    const loanAmount = body.loanAmount !== avgLoanAmount ? body.loanAmount : null;
-    // const application = await this.applicationEntity.create({ ...body, status: ApplicationStatus.Submitted, brokerId: user.id });
-    return {
-      success: true,
-      loanAmount
+   // const loanAmount = body.loanAmount !== avgLoanAmount ? body.loanAmount : null;    
+     const application = await this.applicationEntity.create({ ...body, status: ApplicationStatus.Submitted, brokerId: user.id });
+    
+     const loanAmountComparison = {
+      isAboveAverage: application.loanAmount > avgLoanAmount,
+      isBelowAverage: application.loanAmount < avgLoanAmount,
+      isEqualToAverage: application.loanAmount === avgLoanAmount,
+    };
+    
+     return {
+      success: true,      
+      loanAmountComparison:loanAmountComparison ,
+      
     };
   }
 }

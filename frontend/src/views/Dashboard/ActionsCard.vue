@@ -26,6 +26,7 @@ const formData = ref({
 });
 
 const submitApplication = async () => {
+  
   const response = await api.applications.post(formData.value)
   if (response.success) toast.success('Application Saved Successfully.')
   else {
@@ -104,12 +105,20 @@ const submitApplication = async () => {
         <BNumberInput v-model="formData.outgoingValuation" id="outgoing_valuation" required />
         <label for="savings_contribution">Savings Contribution</label>
         <BNumberInput v-model="formData.savingsContribution" id="savings_contribution" required />
+      
+      
+        
+        <div class="p-dialog-footer">
+
+          <BButton type="submit" variant="primary" label="Submit"></BButton>
+      <BButton label="Cancel" @click="modal.confirm(false)"></BButton>
+        </div>
+      
       </form>
 
-      <template #footer>
-        <BButton type="submit" variant="primary" label="Submit"></BButton>
-        <BButton label="Cancel" @click="modal.confirm(false)"></BButton>
-      </template>
+      
+
+      
     </BModal>
   </div>
 </template>

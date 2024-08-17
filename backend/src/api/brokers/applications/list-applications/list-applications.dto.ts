@@ -9,7 +9,7 @@ import {
 import { IsArray, IsDate, IsEnum, IsOptional } from 'class-validator';
 import { SuccessResponseDto } from 'src/common/responses';
 import { TaskStatus } from 'src/enums/task-status.enum';
-import { Transform, Type } from 'class-transformer';
+import { Transform, Type, Expose } from 'class-transformer';
 
 /**
  * Querystring parameters for listing applications
@@ -78,10 +78,20 @@ export class ApplicationDto extends PickType(Application, [
   'outgoingMortgage',
   'outgoingValuation',
   'savingsContribution'
-]) { }
+]) { 
+  @Expose()
+  applicantName: string;}
+
+
+interface LoanAmountComparison {
+  isAboveAverage: boolean,
+  isBelowAverage: boolean,
+  isEqualToAverage: boolean
+}
 
 export class BrokerApplicationPostResponseDto extends SuccessResponseDto {
-  readonly loanAmount: number
+  //readonly loanAmount: number;
+  readonly loanAmountComparison: LoanAmountComparison
 }
 
 class BrokerApplicationDto extends PickType(Application, [
